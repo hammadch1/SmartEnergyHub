@@ -23,19 +23,35 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
 
-const { Pool } = require("pg") // PostgreSQL client
+// postgreSQL client
+const { Pool } = require("pg")
 
-// PostgreSQL Connection Pool
+// postgreSQL connection pool
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
   database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 })
 
-// Test the database connection
 pool
   .connect()
-  .then(() => console.log("🗄️ Connected to PostgreSQL database"))
-  .catch((err) => console.error("❌ PostgreSQL connection error:", err.message))
+  .then(() => console.log("Connected to PostgreSQL Database"))
+  .catch((err) => console.error("PostgreSQL connection error:", err.message))
+
+const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS energy_data (
+    id SERIAL PRIMARY KEY,
+    sensor TEXT NOT NULL,
+    value REAL NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+`
+
+pool
+  .query(createTableQuery)
+  .then(() => console.log("Table energy_data is created"))
+  .catch((err) =>
+    console.error("Error in creating energy_data table:", err.message)
+  )
