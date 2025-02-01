@@ -31,20 +31,20 @@ app.listen(PORT, () => {
 const { Pool } = require("pg")
 
 // postgreSQL connection pool
-/*const pool = new Pool({
+const pool = new Pool({
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-})*/
+})
 
-const pool = new Pool({
+/*const pool = new Pool({
   connectionString: process.env.DATABASE_INTERNAL_RENDER_URL, // Use the new database URL from Render
   ssl: {
     rejectUnauthorized: false, // Required for Render's managed PostgreSQL
   },
-})
+})*/
 
 pool
   .connect()
@@ -150,3 +150,23 @@ app.get("/api/readings", async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 })
+
+// Function to delete old records and keep only the latest 1000 entries
+const deleteOldRecords = async () => {
+  try {
+    await pool.query(`
+      DELETE FROM energy_data 
+      WHERE id NOT IN (
+        SELECT id FROM energy_data 
+        ORDER BY timestamp DESC 
+        LIMIT 1000
+      )
+    `)
+    console.log("Old records deleted, only latest 1000 entries kept.")
+  } catch (err) {
+    console.error("Error deleting old records:", err.message)
+  }
+}
+
+// Run cleanup every 0.5 hour (1800000ms)
+setInterval(deleteOldRecords, 1800000)
