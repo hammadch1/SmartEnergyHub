@@ -82,14 +82,21 @@ mqttClient.on("connect", () => {
 // handle incoming message or sensor data in this case
 mqttClient.on("message", async (topic, message) => {
   const value = parseFloat(message.toString())
-  try {
-    await pool.query(
-      "INSERT INTO energy_data (sensor, value) VALUES ($1, $2)",
-      [topic, value]
-    )
-    console.log(`Stored value ${value}W from ${topic} in PostgreSQL`)
-  } catch (err) {
-    console.error(`Error inserting value ${value}W from ${topic} in PostgreSQL`)
+
+  if (!isNaN(value)) {
+    try {
+      await pool.query(
+        "INSERT INTO energy_data (sensor, value) VALUES ($1, $2)",
+        [topic, value]
+      )
+      console.log(`Stored value ${value}W from ${topic} in PostgreSQL`)
+    } catch (err) {
+      console.error(
+        `Error inserting value ${value}W from ${topic} in PostgreSQL`
+      )
+    }
+  } else {
+    console.error("Invalid Data received:", message.toString())
   }
 })
 
