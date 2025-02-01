@@ -6,6 +6,7 @@ const cors = require("cors") // allows frontend to call our API
 // intialize our express app
 const app = express()
 app.use(cors())
+
 app.use(express.json())
 
 // load environment variables
@@ -108,10 +109,19 @@ mqttClient.on("error", () => {
 // lets create API route to fetch last 10 Energy Readings for our frontend
 app.get("/api/readings", async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * from energy_data ORDER BY TIMESTAMP LIMIT 10"
+    const { rows } = await pool.query(
+      "SELECT * FROM energy_data ORDER BY timestamp DESC LIMIT 20"
     )
-    res.json(result.rows)
+
+    // Force API to send fresh responses
+    res.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    )
+    res.set("Expires", "0")
+    res.set("Pragma", "no-cache")
+
+    res.json(rows)
   } catch (err) {
     console.error("Error fetching readings:", err.message)
     res.status(500).json({ error: err.message })
