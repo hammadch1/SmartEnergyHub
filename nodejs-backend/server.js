@@ -28,12 +28,19 @@ app.listen(PORT, () => {
 const { Pool } = require("pg")
 
 // postgreSQL connection pool
-const pool = new Pool({
+/*const pool = new Pool({
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
+})*/
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // Use the new database URL from Render
+  ssl: {
+    rejectUnauthorized: false, // Required for Render's managed PostgreSQL
+  },
 })
 
 pool
