@@ -19,9 +19,12 @@ app.get("/", (req, res) => {
   res.send("SmartEnergyHub API is running...!")
 })
 
+//SERVER_URL = `http://localhost:${PORT}`
+SERVER_URL = "https://smart-energy-backend.onrender.com"
+
 // start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`)
+  console.log(`Server is running on ${SERVER_URL}`)
 })
 
 // postgreSQL client
@@ -37,7 +40,7 @@ const { Pool } = require("pg")
 })*/
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Use the new database URL from Render
+  connectionString: process.env.DATABASE_EXTERNAL_RENDER_URL, // Use the new database URL from Render
   ssl: {
     rejectUnauthorized: false, // Required for Render's managed PostgreSQL
   },
@@ -84,6 +87,19 @@ const TOPIC = [
 // handle successful connection
 mqttClient.on("connect", () => {
   console.log("Connected to MQTT Broker..!")
+
+  // Function to simulate and publish sensor data every 5 seconds
+  const publishSensorData = () => {
+    TOPIC.forEach((topic) => {
+      const value = (Math.random() * (1500 - 500) + 500).toFixed(2) // Generate random value between 500W and 1500W
+      mqttClient.publish(topic, value)
+      console.log(`Published ${value}W to ${topic}`)
+    })
+  }
+
+  // Publish data every 5 seconds
+  setInterval(publishSensorData, 5000)
+
   TOPIC.forEach((topic) => mqttClient.subscribe(topic))
 })
 
