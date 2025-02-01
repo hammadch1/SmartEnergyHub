@@ -104,3 +104,16 @@ mqttClient.on("message", async (topic, message) => {
 mqttClient.on("error", () => {
   console.error(`Error connecting to MQTT Broker`)
 })
+
+// lets create API route to fetch last 10 Energy Readings for our frontend
+app.get("/api/readings", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * from energy_data ORDER BY TIMESTAMP LIMIT 10"
+    )
+    res.json(result.rows)
+  } catch (err) {
+    console.error("Error fetching readings:", err.message)
+    res.status(500).json({ error: err.message })
+  }
+})
