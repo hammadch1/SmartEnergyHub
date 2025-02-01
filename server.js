@@ -55,3 +55,45 @@ pool
   .catch((err) =>
     console.error("Error in creating energy_data table:", err.message)
   )
+
+// gonna subscribe our mqtt to incoming messages from mqtt which is simulating fake ioT sensors signals data
+const mqtt = require("mqtt")
+
+// loading mqtt broker details from .env
+const MQTT_BROKER = process.env.MQTT_BROKER
+const MQTT_PORT = process.env.MQTT_PORT
+
+// connect to the mqtt broker
+const mqttClient = mqtt.connect(`mqtt://${MQTT_BROKER}:${MQTT_PORT}`)
+
+const TOPIC = [
+  "hvac/floor1",
+  "hvac/floor2",
+  "lighting/floor1",
+  "lighting/floor2",
+]
+
+// handle successful connection
+mqttClient.on("connect", () => {
+  console.log("Connected to MQTT Broker..!")
+  TOPIC.forEach((topic) => mqttClient.subscribe(topic))
+})
+
+// handle incoming message or sensor data in this case
+mqttClient.on("message", async (topic, message) => {
+  const value = parseFloat(message.toString())
+  try {
+    await pool.query(
+      "INSERT INTO energy_data (sensor, value) VALUES ($1, $2)",
+      [topic, value]
+    )
+    console.log(`Stored value ${value}W from ${topic} in PostgreSQL`)
+  } catch (err) {
+    console.error(`Error inserting value ${value}W from ${topic} in PostgreSQL`)
+  }
+})
+
+// handle mqtt connection error
+mqttClient.on("error", () => {
+  console.error(`Error connecting to MQTT Broker`)
+})
