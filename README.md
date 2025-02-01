@@ -76,4 +76,4 @@ Contributions are welcome! Feel free to fork, star, and submit pull requests.
 
 ---
 
-## 📌 Maintained by: Muhammad Hammad Chaudhary 🚀
+## 📌 Maintained by: [Muhammad Hammad Chaudhary](https://github.com/hammadch1) 🚀
