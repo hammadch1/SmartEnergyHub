@@ -32,7 +32,13 @@ function App() {
   // calls fetch data once when the component loads & sets a data refresh interval of every 5 seconds
   useEffect(() => {
     fetchData()
-    const interval = setInterval(fetchData, 5000) // refresh every 5s
+
+    //const interval = setInterval(fetchData, 5000) // refresh every 5s
+
+    const interval = setInterval(() => {
+      fetchData()
+    }, 5000)
+
     return () => clearInterval(interval)
   }, [])
 
