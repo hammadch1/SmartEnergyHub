@@ -34,9 +34,9 @@ function App() {
   // calls fetch data once when the component loads & sets a data refresh interval of every 5 seconds
   useEffect(() => {
     fetchData()
-    const interval = setInterval(fetchData, 1000) // refresh every 5s
+    const interval = setInterval(fetchData, 5000) // refresh every 5s
     return () => clearInterval(interval)
-  })
+  }, [])
 
   // prepare data for visualization, sets timetstamp on x-axis and energy values on y-axis and defines line chart style
   const sortedData = [...energyData].sort(
