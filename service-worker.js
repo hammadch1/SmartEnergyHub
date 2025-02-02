@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/SmartEnergyHub/precache-manifest.9266780c08c19d2e7f1d6b9ad50eee59.js"
+  "/SmartEnergyHub/precache-manifest.d08b699b984d315180b58e2838e60b4d.js"
 );
 
 self.addEventListener('message', (event) => {
