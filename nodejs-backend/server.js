@@ -39,13 +39,6 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 })
 
-/*const pool = new Pool({
-  connectionString: process.env.DATABASE_INTERNAL_RENDER_URL, // Use the new database URL from Render
-  ssl: {
-    rejectUnauthorized: false, // Required for Render's managed PostgreSQL
-  },
-})*/
-
 pool
   .connect()
   .then(() => console.log("Connected to PostgreSQL Database"))
