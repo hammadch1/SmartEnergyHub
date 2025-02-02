@@ -16,7 +16,7 @@ function App() {
   // makes the GET request to API Route in our backend & updates the energy state with the response
   const fetchData = async () => {
     try {
-      const response = await axios.get(process.env.API_URL)
+      const response = await axios.get(process.env.REACT_APP_API_URL)
 
       console.log("Fetched Data:", response.data) // Debug log
 
@@ -33,11 +33,7 @@ function App() {
   useEffect(() => {
     fetchData()
 
-    //const interval = setInterval(fetchData, 5000) // refresh every 5s
-
-    const interval = setInterval(() => {
-      fetchData()
-    }, 5000)
+    const interval = setInterval(fetchData, 5000) // refresh every 5s
 
     return () => clearInterval(interval)
   }, [])
