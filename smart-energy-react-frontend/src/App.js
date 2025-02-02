@@ -6,6 +6,7 @@ import axios from "axios"
 // for data visualization
 import { Line } from "react-chartjs-2"
 import "chart.js/auto"
+import config from "./config"
 
 // stores the API endpoint so we can fetch sensor data
 
@@ -16,7 +17,7 @@ function App() {
   // makes the GET request to API Route in our backend & updates the energy state with the response
   const fetchData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_API_URL)
+      const response = await axios.get(config.API_URL)
 
       console.log("Fetched Data:", response.data) // Debug log
 
