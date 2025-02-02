@@ -8,7 +8,6 @@ import { Line } from "react-chartjs-2"
 import "chart.js/auto"
 
 // stores the API endpoint so we can fetch sensor data
-//const API_URL = "http://localhost:5001/api/readings" // BACKEND API URL
 
 function App() {
   // creates energyData state -> holds sensor data, initially it's an empty array ([])
