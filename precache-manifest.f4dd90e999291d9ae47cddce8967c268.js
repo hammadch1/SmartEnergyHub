@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5e663d3996179ef9b0b4f49788e51a85",
+    "revision": "ac139659bb74b272e80eca93ceffe6f1",
     "url": "/SmartEnergyHub/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/SmartEnergyHub/static/js/2.82e63adf.chunk.js"
   },
   {
-    "revision": "c9bbf939a0391466b162",
-    "url": "/SmartEnergyHub/static/js/main.188cc443.chunk.js"
+    "revision": "77f0606947af1ce14d78",
+    "url": "/SmartEnergyHub/static/js/main.480f488d.chunk.js"
   },
   {
     "revision": "ebe25cddf008ada37c9c",
