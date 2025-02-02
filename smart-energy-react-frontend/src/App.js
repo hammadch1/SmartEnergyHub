@@ -9,7 +9,6 @@ import "chart.js/auto"
 
 // stores the API endpoint so we can fetch sensor data
 //const API_URL = "http://localhost:5001/api/readings" // BACKEND API URL
-const API_URL = "https://smart-energy-backend.onrender.com/api/readings"
 
 function App() {
   // creates energyData state -> holds sensor data, initially it's an empty array ([])
@@ -18,7 +17,7 @@ function App() {
   // makes the GET request to API Route in our backend & updates the energy state with the response
   const fetchData = async () => {
     try {
-      const response = await axios.get(API_URL)
+      const response = await axios.get(process.env.API_URL)
 
       console.log("Fetched Data:", response.data) // Debug log
 
