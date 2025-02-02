@@ -4,9 +4,5 @@ node_modules/
 # Ignore local environment variables
 .env
 
-# Ignore SQLite database files
-energy.db
-
 # Ignore log files
 *.log
-.env
